@@ -1,0 +1,40 @@
+# org: hansrajflyzy
+service: flyzyzero
+# frameworkVersion: '3'
+
+custom:
+  secrets: ${file(env.dev.json)}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-south-1
+  timeout: 180
+  memorySize: 2048
+  environment:
+    NODE_ENV: ${self:custom.secrets.NODE_ENV}
+    MONGO_URL: ${self:custom.secrets.MONGO_URL}
+    PROTOCOL: ${self:custom.secrets.PROTOCOL}
+    DOMAIN_URL: ${self:custom.secrets.DOMAIN_URL}
+    BUCKET: ${self:custom.secrets.BUCKET}
+    DB_NAME: ${self:custom.secrets.DB_NAME}
+    MONGO_USERNAME: ${self:custom.secrets.MONGO_USERNAME}
+    MONGO_PWD: ${self:custom.secrets.MONGO_PWD}
+    AWS_URL: ${self:custom.secrets.AWS_URL}
+    AWS_AXS_KEY: ${self:custom.secrets.AWS_AXS_KEY}
+    AWS_SCRT_KEY: ${self:custom.secrets.AWS_SCRT_KEY}
+    RAZORPAY_KEY_ID: ${self:custom.secrets.RAZORPAY_KEY_ID}
+    RAZORPAY_KEY_SECRET: ${self:custom.secrets.RAZORPAY_KEY_SECRET}
+    WHATSAPP_URL: ${self:custom.secrets.WHATSAPP_URL}
+    WHATSAPP_GROUP: ${self:custom.secrets.WHATSAPP_GROUP}
+    CHATGPT_API_SECRET: ${self:custom.secrets.CHATGPT_API_SECRET}
+
+functions:
+  api:
+    handler: handler.run
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+# plugins:
+#   - serverless-offline
